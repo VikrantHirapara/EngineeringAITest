@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EngineeringAITest</string>
+    <string name="count">count</string>
 </resources>
