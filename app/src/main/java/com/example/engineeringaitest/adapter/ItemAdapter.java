@@ -1,7 +1,6 @@
 package com.example.engineeringaitest.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +26,6 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private boolean isLoaderVisible = false;
     private final OnItemClickListener listener;
     private Context ctx;
-    private  int count;
-
-
     private List<Item> items;
 
     public ItemAdapter(Context ctx, List<Item> items, OnItemClickListener listener) {
@@ -39,7 +35,7 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int count);
+        void onItemClick();
     }
 
 
@@ -147,33 +143,21 @@ public class ItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 e.printStackTrace();
             }
 
-
-            swtSelection.setChecked(item.isSelected());
-
             // Make sure we update the model if the user taps the switch
             swtSelection.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+
                 item.setSelected(isChecked);
-                listener.onItemClick(getCheckedItem());
+
+                listener.onItemClick();
             });
+
+            swtSelection.setChecked(item.isSelected());
         }
     }
 
-
-    public int getCheckedItem() {
-
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).isSelected()) {
-                count = count + 1;
-            } else {
-                if (count > 0)
-                    count = count - 1;
-            }
-        }
-        Log.d("count=====", "" + count);
-
-        return count;
+    public List<Item> getItems() {
+        return items;
     }
-
 
     public class ProgressHolder extends BaseViewHolder {
         ProgressHolder(View itemView) {

@@ -48,10 +48,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     int itemCount = 0;
     static int selectCount = 0;
     TextView notifCount;
-    private Context ctx=this;
-
-
-    private List<Item> items;
+    private Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +56,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        items = new ArrayList<>();
         swipeRefresh.setOnRefreshListener(this);
         lstItems.setHasFixedSize(true);
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         lstItems.setLayoutManager(layoutManager);
 
-        adapter = new ItemAdapter(ctx,new ArrayList<>(), new ItemAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int count) {
-                Log.d("trae=====",""+count);
-                setNotifCount(count);
+        adapter = new ItemAdapter(ctx, new ArrayList<>(), () -> {
+            int count = 0;
+            for (int i = 0; i < adapter.getItems().size(); i++) {
+
+                if (adapter.getItems().get(i).isSelected()) {
+                    count = count + 1;
+
+                }
             }
+            setNotifCount(count);
         });
         lstItems.setAdapter(adapter);
         doApiCall();
